@@ -1,11 +1,16 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import OnboardingScreen1 from "./screens/onboarding/OnboardingScreen1";
 import LoginScreen from "./screens/auth/LoginScreen";
 import SignupScreen from "./screens/auth/SignupScreen";
 import HomeScreen from "./screens/Home/HomeScreen";
 import { NavigationContainer } from "@react-navigation/native";
+import * as SplashScreen from "expo-splash-screen";
+import { View } from "react-native";
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -36,11 +41,40 @@ function Navigation(): React.JSX.Element {
   );
 }
 
-export default function App(): React.JSX.Element {
+export default function App() {
+  // Want to show App Startup Screen while we are still initializing
+  const [appIsReady, setAppIsReady] = useState<boolean>(false);
+
+  useEffect(() => {
+    const prepare = async () => {
+      try {
+        // Make any API Calls here
+        // Artificially delay for two seconds to simulate a slow loading experience
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      } catch (error) {
+        console.warn(error);
+      } finally {
+        // Tell the app to render
+        setAppIsReady(true);
+      }
+    };
+    prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
+  }
+
   return (
-    <>
+    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
       <StatusBar style="light" />
       <Navigation />
-    </>
+    </View>
   );
 }
