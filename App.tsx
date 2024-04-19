@@ -1,13 +1,19 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { StatusBar } from "expo-status-bar";
+import { View } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import React, { useCallback, useEffect, useState } from "react";
 import OnboardingScreen1 from "./screens/onboarding/OnboardingScreen1";
+import OnboardingScreen2 from "./screens/onboarding/OnboardingScreen2";
+import OnboardingScreen3 from "./screens/onboarding/OnboardingScreen3";
 import LoginScreen from "./screens/auth/LoginScreen";
 import SignupScreen from "./screens/auth/SignupScreen";
 import HomeScreen from "./screens/Home/HomeScreen";
-import { NavigationContainer } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
-import { View } from "react-native";
+import * as Font from "expo-font";
+import { NavigationContainer } from "@react-navigation/native";
+import colors from "./constants/colors";
+import { RootStackParamList } from "./types/navigationTypes";
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -16,8 +22,19 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function AuthStack(): React.ReactElement {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={() => {
+        return {
+          headerShown: false,
+          contentStyle: {
+            backgroundColor: colors.onBoardingBackground,
+          },
+        };
+      }}
+    >
       <Stack.Screen name="Onboarding1" component={OnboardingScreen1} />
+      <Stack.Screen name="Onboarding2" component={OnboardingScreen2} />
+      <Stack.Screen name="Onboarding3" component={OnboardingScreen3} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="SignUp" component={SignupScreen} />
     </Stack.Navigator>
@@ -44,6 +61,10 @@ function Navigation(): React.JSX.Element {
 export default function App() {
   // Want to show App Startup Screen while we are still initializing
   const [appIsReady, setAppIsReady] = useState<boolean>(false);
+  const [fontLoaded, fontError] = Font.useFonts({
+    "Roboto-Mono": require("./assets/fonts/Libre_Franklin,Roboto_Mono/Libre_Franklin/static/LibreFranklin-ExtraBoldItalic.ttf"),
+    "Roboto-Mono-light": require("./assets/fonts/Libre_Franklin,Roboto_Mono/Libre_Franklin/static/LibreFranklin-MediumItalic.ttf"),
+  });
 
   useEffect(() => {
     const prepare = async () => {
@@ -62,19 +83,21 @@ export default function App() {
   }, []);
 
   const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
+    if (appIsReady || fontLoaded || fontError) {
       await SplashScreen.hideAsync();
     }
-  }, [appIsReady]);
+  }, [appIsReady, fontLoaded, fontError]);
 
-  if (!appIsReady) {
+  if (!appIsReady && !fontLoaded && !fontError) {
     return null;
   }
 
   return (
-    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <StatusBar style="light" />
-      <Navigation />
-    </View>
+    <SafeAreaProvider>
+      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+        <StatusBar style="dark" />
+        <Navigation />
+      </View>
+    </SafeAreaProvider>
   );
 }

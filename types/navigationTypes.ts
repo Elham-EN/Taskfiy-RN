@@ -1,6 +1,28 @@
-type RootStackParamList = {
+import {
+  NativeStackScreenProps,
+  NativeStackNavigationProp,
+} from "@react-navigation/native-stack";
+
+export type RootStackParamList = {
   Onboarding1: undefined;
+  Onboarding2: undefined;
+  Onboarding3: undefined;
   Login: undefined;
   SignUp: undefined;
   Home: undefined;
 };
+
+export type OnboardingScreen1NavigationProps = NativeStackScreenProps<
+  RootStackParamList,
+  "Onboarding1"
+>;
+
+export type OnboardingScreen2NavigationProps = NativeStackScreenProps<
+  RootStackParamList,
+  "Onboarding2"
+>;
+
+export type OnboardingScreen3NavigationProps = NativeStackScreenProps<
+  RootStackParamList,
+  "Onboarding3"
+>;

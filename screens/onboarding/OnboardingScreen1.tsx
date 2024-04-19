@@ -1,10 +1,21 @@
 import React from "react";
-import { View, Text } from "react-native";
+import Onboarding from "../../components/OnBoarding";
+import { OnboardingScreen1NavigationProps } from "../../types/navigationTypes";
 
-export default function OnboardingScreen1(): React.ReactElement {
+export default function OnboardingScreen1({
+  navigation,
+}: OnboardingScreen1NavigationProps): React.ReactElement {
   return (
-    <View>
-      <Text>OnboardingScreen1</Text>
-    </View>
+    <Onboarding
+      image="TaskList"
+      title="Welcome To Taskify"
+      text="Simplify your life with organized tasks. Let's get things done together"
+      btnText="Next"
+      onPress={() => {
+        navigation.replace("Onboarding2");
+      }}
+      totalSteps={3}
+      currentStep={0}
+    />
   );
 }
