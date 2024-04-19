@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "../components/Button";
 import colors from "../constants/colors";
@@ -28,6 +28,8 @@ export default function Onboarding({
   // Handling Notches on phones
   const insets = useSafeAreaInsets();
 
+  const { width } = useWindowDimensions();
+
   const styles = StyleSheet.create({
     container: {
       paddingTop: insets.top,
@@ -35,7 +37,7 @@ export default function Onboarding({
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
-      maxWidth: 700,
+      marginHorizontal: width / 12,
     },
     imageContainer: {},
     image: {
