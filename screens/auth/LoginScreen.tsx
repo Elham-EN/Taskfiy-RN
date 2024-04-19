@@ -35,7 +35,7 @@ export default function LoginScreen(): React.ReactElement {
         <PasswordInput />
         <Button
           btnTitle="Sign In"
-          btnColor="#dc143c"
+          btnColor="#da4563"
           btnTitleColor="white"
           onPress={() => {}}
         />
