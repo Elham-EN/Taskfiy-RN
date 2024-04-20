@@ -1,6 +1,6 @@
 const colors = {
   onBoardingBackground: "#FFFFFF",
-  onBoardingBtn: "#ff0000",
+  onBoardingBtn: "#da4563",
   onBoardingBtnText: "#FFFFFF",
 };
 

@@ -26,3 +26,13 @@ export type OnboardingScreen3NavigationProps = NativeStackScreenProps<
   RootStackParamList,
   "Onboarding3"
 >;
+
+export type LoginScreenNavigationProps = NativeStackScreenProps<
+  RootStackParamList,
+  "Login"
+>;
+
+export type SignUpScreenNavigationProps = NativeStackScreenProps<
+  RootStackParamList,
+  "SignUp"
+>;

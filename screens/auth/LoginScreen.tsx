@@ -13,8 +13,11 @@ import PasswordInput from "../../components/PasswordInput";
 import Button from "../../components/Button";
 import Divider from "../../components/Divider";
 import GoogleButton from "../../components/GoogleButton";
+import { LoginScreenNavigationProps } from "../../types/navigationTypes";
 
-export default function LoginScreen(): React.ReactElement {
+export default function LoginScreen({
+  navigation,
+}: LoginScreenNavigationProps): React.ReactElement {
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
 
@@ -31,6 +34,7 @@ export default function LoginScreen(): React.ReactElement {
           mode="outlined"
           label={"Email"}
           placeholder="Please enter your email"
+          onChangeText={() => {}}
         />
         <PasswordInput />
         <Button
@@ -51,7 +55,12 @@ export default function LoginScreen(): React.ReactElement {
         <GoogleButton onPress={() => {}} />
         <View style={styles.SignUpContainer}>
           <Text>DONT HAVE AN ACCOUNT?</Text>
-          <Pressable style={({ pressed }) => pressed && styles.resetPasswordPressed}>
+          <Pressable
+            onPress={() => {
+              navigation.navigate("SignUp");
+            }}
+            style={({ pressed }) => pressed && styles.resetPasswordPressed}
+          >
             <Text style={styles.resetPasswordText}>SIGN UP</Text>
           </Pressable>
         </View>

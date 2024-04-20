@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import { TextInput, Icon, MD3Colors } from "react-native-paper";
 
-export default function PasswordInput() {
+interface PasswordInputProps {
+  value?: string | undefined;
+  onChangeText: (((text: string) => void) & Function) | undefined;
+}
+
+export default function PasswordInput({
+  value,
+  onChangeText,
+}: PasswordInputProps): React.ReactElement {
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const tooglePasswordVisibility = () => {
@@ -30,6 +38,8 @@ export default function PasswordInput() {
           onPress={tooglePasswordVisibility}
         />
       }
+      value={value}
+      onChangeText={onChangeText}
       style={{ backgroundColor: "#FFFFFF", borderColor: "#000000" }}
       underlineColor="transparent"
       outlineColor="#808080"

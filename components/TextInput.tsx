@@ -6,12 +6,16 @@ interface TextInputProps {
   mode: "outlined" | "flat" | undefined;
   label?: TextInputLabelProp;
   placeholder?: string | undefined;
+  value?: string | undefined;
+  onChangeText: (((text: string) => void) & Function) | undefined;
 }
 
 export default function TextInput({
   mode,
   label,
   placeholder,
+  value,
+  onChangeText,
 }: TextInputProps): React.ReactElement {
   const [passwordVisible, setPasswordVisible] = useState(false);
 
@@ -38,6 +42,8 @@ export default function TextInput({
       underlineColor="transparent"
       outlineColor="#808080"
       theme={theme}
+      value={value}
+      onChangeText={onChangeText}
     />
   );
 }
