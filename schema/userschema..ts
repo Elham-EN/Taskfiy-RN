@@ -2,7 +2,7 @@ import { z, ZodType } from "zod";
 import { SignupFormData } from "../types/formDataTypes";
 
 export const UserSchema: ZodType<SignupFormData> = z.object({
-  fullname: z.string(),
+  fullname: z.string().min(1, { message: "Fullname is required" }),
   email: z.string().email(),
   password: z
     .string()
