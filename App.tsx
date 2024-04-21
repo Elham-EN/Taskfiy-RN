@@ -69,9 +69,7 @@ export default function App() {
     "Roboto-Mono-light": require("./assets/fonts/Libre_Franklin,Roboto_Mono/Libre_Franklin/static/LibreFranklin-MediumItalic.ttf"),
   });
 
-  const token = useAuthStore((state) => state.token);
   useEffect(() => {
-    console.log("Zutstand Global State:", token);
     const prepare = async () => {
       try {
         // Make any API Calls here

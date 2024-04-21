@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -14,12 +14,22 @@ import Button from "../../components/Button";
 import Divider from "../../components/Divider";
 import GoogleButton from "../../components/GoogleButton";
 import { LoginScreenNavigationProps } from "../../types/navigationTypes";
+import useAuthStore from "../../stores/useAuthStore";
 
 export default function LoginScreen({
   navigation,
 }: LoginScreenNavigationProps): React.ReactElement {
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
+
+  const authState = useAuthStore();
+  useEffect(() => {
+    // Attempt to load the token when the component mounts
+    authState.getToken();
+    if (authState.token) {
+      console.log("Auth Token in Login Screen", authState.token);
+    }
+  }, [authState.token]);
 
   return (
     <View
@@ -36,7 +46,7 @@ export default function LoginScreen({
           placeholder="Please enter your email"
           onChangeText={() => {}}
         />
-        <PasswordInput />
+        {/* <PasswordInput  /> */}
         <Button
           btnTitle="Sign In"
           btnColor="#da4563"

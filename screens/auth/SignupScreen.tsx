@@ -15,6 +15,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as apiClient from "../../services/user.service";
 import useAuthStore from "../../stores/useAuthStore";
 import { showToast } from "../../utils/showToast";
+import ProgressLoader from "../../components/ProgressLoader";
 
 export default function SignupScreen({
   navigation,
@@ -116,12 +117,16 @@ export default function SignupScreen({
         {formState.errors.password && (
           <Text style={{ color: "#ff0000" }}>{formState.errors.password.message}</Text>
         )}
-        <Button
-          btnTitle="Sign Up"
-          btnColor="#da4563"
-          btnTitleColor="white"
-          onPress={handleSubmit(onSubmit)}
-        />
+        {mutation.isPending ? (
+          <ProgressLoader />
+        ) : (
+          <Button
+            btnTitle="Sign Up"
+            btnColor="#da4563"
+            btnTitleColor="white"
+            onPress={handleSubmit(onSubmit)}
+          />
+        )}
         <View style={styles.bottomContainer}>
           <Divider text="OR SIGN UP WITH" />
           <GoogleButton onPress={() => {}} />
