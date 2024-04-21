@@ -14,6 +14,9 @@ import * as Font from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import colors from "./constants/colors";
 import { RootStackParamList } from "./types/navigationTypes";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Toast from "react-native-toast-message";
+import useAuthStore from "./stores/useAuthStore";
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -66,7 +69,9 @@ export default function App() {
     "Roboto-Mono-light": require("./assets/fonts/Libre_Franklin,Roboto_Mono/Libre_Franklin/static/LibreFranklin-MediumItalic.ttf"),
   });
 
+  const token = useAuthStore((state) => state.token);
   useEffect(() => {
+    console.log("Zutstand Global State:", token);
     const prepare = async () => {
       try {
         // Make any API Calls here
@@ -92,12 +97,17 @@ export default function App() {
     return null;
   }
 
+  const queryClient = new QueryClient();
+
   return (
     <SafeAreaProvider>
-      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-        <StatusBar style="dark" />
-        <Navigation />
-      </View>
+      <StatusBar style="dark" />
+      <QueryClientProvider client={queryClient}>
+        <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+          <Navigation />
+          <Toast />
+        </View>
+      </QueryClientProvider>
     </SafeAreaProvider>
   );
 }

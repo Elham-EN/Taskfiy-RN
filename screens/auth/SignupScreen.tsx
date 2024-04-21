@@ -11,12 +11,17 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SignupFormData } from "../../types/formDataTypes";
 import { UserSchema } from "../../schema/userschema.";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import * as apiClient from "../../services/user.service";
+import useAuthStore from "../../stores/useAuthStore";
+import { showToast } from "../../utils/showToast";
 
 export default function SignupScreen({
   navigation,
 }: SignUpScreenNavigationProps): React.ReactElement {
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
+  const queryClient = useQueryClient();
 
   const { control, handleSubmit, formState } = useForm<SignupFormData>({
     defaultValues: {
@@ -27,7 +32,29 @@ export default function SignupScreen({
     resolver: zodResolver(UserSchema),
   });
 
-  const onSubmit = (data: SignupFormData) => console.log("data:", data);
+  const mutation = useMutation({
+    mutationFn: (newData: SignupFormData) => {
+      return apiClient.createUser(newData);
+    },
+    onSuccess: async (data) => {
+      await useAuthStore.getState().setToken(data.token);
+      showToast(
+        "success",
+        "User Account Created",
+        "Now you need to login to use Taskify"
+      );
+      navigation.replace("Login");
+    },
+    onError: (error: Error) => {
+      showToast("error", "Failed to sign up", error.message);
+      console.error("Failed to sign up user", error);
+    },
+  });
+
+  const onSubmit = (data: SignupFormData) => {
+    console.log("data:", data);
+    mutation.mutate(data);
+  };
 
   return (
     <View
