@@ -23,13 +23,13 @@ export default function LoginScreen({
   const { width } = useWindowDimensions();
 
   const authState = useAuthStore();
-  useEffect(() => {
-    // Attempt to load the token when the component mounts
-    authState.getToken();
-    if (authState.token) {
-      console.log("Auth Token in Login Screen", authState.token);
-    }
-  }, [authState.token]);
+  // useEffect(() => {
+  //   // Attempt to load the token when the component mounts
+  //   authState.getToken();
+  //   if (authState.token) {
+  //     console.log("Auth Token in Login Screen", authState.token);
+  //   }
+  // }, [authState.token]);
 
   return (
     <View

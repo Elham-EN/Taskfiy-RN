@@ -13,7 +13,6 @@ export async function createUser(userData: SignupFormData) {
   const responseBody = await response.json();
   console.log("Fetched data from the backend", responseBody);
   if (!response.ok) {
-    console.log("message", responseBody.message);
     const errorMessage =
       typeof responseBody.message === "object"
         ? JSON.stringify(responseBody.message)

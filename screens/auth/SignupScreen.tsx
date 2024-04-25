@@ -39,16 +39,16 @@ export default function SignupScreen({
     },
     onSuccess: async (data) => {
       await useAuthStore.getState().setToken(data.token);
+      await useAuthStore.getState().setIsAuthenticated();
       showToast(
         "success",
         "User Account Created",
         "Now you need to login to use Taskify"
       );
-      navigation.replace("Login");
+      navigation.replace("Home");
     },
     onError: (error: Error) => {
       showToast("error", "Failed to sign up", error.message);
-      console.error("Failed to sign up user", error);
     },
   });
 

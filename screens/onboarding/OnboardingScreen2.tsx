@@ -12,7 +12,7 @@ export default function OnboardingScreen2({
       text="Enjoy seamless task management with categories, priorities, and reminders"
       btnText="Next"
       onPress={() => {
-        navigation.replace("Onboarding3");
+        navigation.navigate("Onboarding3");
       }}
       totalSteps={3}
       currentStep={1}

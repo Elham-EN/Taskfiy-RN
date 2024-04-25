@@ -12,7 +12,7 @@ export default function OnboardingScreen1({
       text="Simplify your life with organized tasks. Let's get things done together"
       btnText="Next"
       onPress={() => {
-        navigation.replace("Onboarding2");
+        navigation.navigate("Onboarding2");
       }}
       totalSteps={3}
       currentStep={0}
