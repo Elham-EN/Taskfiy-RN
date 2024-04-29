@@ -42,6 +42,7 @@ const useAuthStore = create<State & Actions>()((set, get) => ({
   getToken: async () => {
     const token = await tokenStorage.getToken();
     set({ token: token }); // Update Zustand store with the retrieved token
+    set({ isAuthenticated: !!get().token });
   },
   /**
    * Clears the token from storage and state, effectively logging out

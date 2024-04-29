@@ -29,6 +29,7 @@ export default function App() {
       try {
         // Make any API Calls here / Initialization logic
         await authState.getIsOnboardingCompleted();
+        await authState.getToken();
         await Font.loadAsync({
           "Roboto-Mono": require("./assets/fonts/Libre_Franklin,Roboto_Mono/Libre_Franklin/static/LibreFranklin-ExtraBoldItalic.ttf"),
           "Roboto-Mono-light": require("./assets/fonts/Libre_Franklin,Roboto_Mono/Libre_Franklin/static/LibreFranklin-MediumItalic.ttf"),

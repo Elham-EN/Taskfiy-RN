@@ -11,24 +11,36 @@
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.elham5.taskify-mobile"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.elham5.taskifymobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-font",
-      "expo-secure-store"
-    ]
+      "expo-secure-store",
+      [
+        "expo-dev-launcher",
+        {
+          "launchModeExperimental": "launcher"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "13861138-d88b-497c-be77-7a4fe757eaf6"
+      }
+    },
+    "scheme": "mycoolredirect"
   }
 }

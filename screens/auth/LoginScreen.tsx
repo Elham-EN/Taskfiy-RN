@@ -15,6 +15,15 @@ import Divider from "../../components/Divider";
 import GoogleButton from "../../components/GoogleButton";
 import { LoginScreenNavigationProps } from "../../types/navigationTypes";
 import useAuthStore from "../../stores/useAuthStore";
+import { Controller, useForm } from "react-hook-form";
+import { LoginFormData } from "../../types/formDataTypes";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoginUserSchema } from "../../schema/loginUserSchema";
+import { useMutation } from "@tanstack/react-query";
+import * as apiClient from "../../services/auth.service";
+import { showToast } from "../../utils/showToast";
+import BtnLoader from "../../components/BtnLoader";
+import LoadingSpinner from "../../components/CircleLoader";
 
 export default function LoginScreen({
   navigation,
@@ -22,14 +31,31 @@ export default function LoginScreen({
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
 
-  const authState = useAuthStore();
-  // useEffect(() => {
-  //   // Attempt to load the token when the component mounts
-  //   authState.getToken();
-  //   if (authState.token) {
-  //     console.log("Auth Token in Login Screen", authState.token);
-  //   }
-  // }, [authState.token]);
+  const { control, handleSubmit, formState } = useForm<LoginFormData>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    resolver: zodResolver(LoginUserSchema),
+  });
+
+  const mutation = useMutation({
+    mutationFn: (newData: LoginFormData) => {
+      return apiClient.signinUser(newData);
+    },
+    onSuccess: async (data) => {
+      await useAuthStore.getState().setToken(data.token);
+      await useAuthStore.getState().setIsAuthenticated();
+      showToast("success", "User logged in", "Ready to start a task?");
+    },
+    onError: (error: Error) => {
+      showToast("error", "Cannot sign in", error.message);
+    },
+  });
+
+  const onSubmit = (data: LoginFormData) => {
+    mutation.mutate(data);
+  };
 
   return (
     <View
@@ -40,19 +66,49 @@ export default function LoginScreen({
     >
       <Image source={require("../../assets/images/login.png")} />
       <View style={styles.inputContainer}>
-        <TextInput
-          mode="outlined"
-          label={"Email"}
-          placeholder="Please enter your email"
-          onChangeText={() => {}}
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { value, onChange } }) => (
+            <TextInput
+              mode="outlined"
+              label={"Email"}
+              placeholder="Please enter your email"
+              value={value}
+              onChangeText={onChange}
+            />
+          )}
+          name="email"
         />
-        {/* <PasswordInput  /> */}
-        <Button
-          btnTitle="Sign In"
-          btnColor="#da4563"
-          btnTitleColor="white"
-          onPress={() => {}}
+        {formState.errors.email && (
+          <Text style={{ color: "#ff0000" }}>{formState.errors.email.message}</Text>
+        )}
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { value, onChange } }) => (
+            <PasswordInput value={value} onChangeText={onChange} />
+          )}
+          name="password"
         />
+        {formState.errors.password && (
+          <Text style={{ color: "#ff0000" }}>{formState.errors.password.message}</Text>
+        )}
+        {mutation.isPending ? (
+          // <BtnLoader />
+          <LoadingSpinner />
+        ) : (
+          <Button
+            btnTitle="Sign In"
+            btnColor="#da4563"
+            btnTitleColor="white"
+            onPress={handleSubmit(onSubmit)}
+          />
+        )}
       </View>
       <View style={styles.bottomContainer}>
         <View style={styles.resetPasswordContainer}>
