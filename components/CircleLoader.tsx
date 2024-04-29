@@ -23,7 +23,7 @@ const LoadingSpinner = () => {
   React.useEffect(() => {
     // Rotates indefinitely, 360 degrees rotation using a linear timing function
     rotation.value = withRepeat(
-      withTiming(360, { duration: 2000, easing: Easing.linear }),
+      withTiming(360, { duration: 1000, easing: Easing.linear }),
       -1,
       false
     );
@@ -38,18 +38,23 @@ const LoadingSpinner = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#da4563",
+    height: 50,
+    borderRadius: 5,
+    width: "100%",
+    paddingVertical: 10,
   },
   circle: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     borderRadius: 25,
-    backgroundColor: "white", // Adjust the background color as needed
+    backgroundColor: "transparent", // Adjust the background color as needed
     borderRightColor: "transparent",
     borderTopColor: "transparent",
     borderBottomColor: "transparent",
+    borderColor: "white",
     borderWidth: 5,
   },
 });

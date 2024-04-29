@@ -1,14 +1,19 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, useWindowDimensions, StyleSheet } from "react-native";
 import Button from "../../components/Button";
 import useAuthStore from "../../stores/useAuthStore";
 import { signOut } from "firebase/auth";
 import { firebaseAuth } from "../../firebaseClient";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function HomeScreen(): React.ReactElement {
+  const insets = useSafeAreaInsets();
+  const { width } = useWindowDimensions();
   const authState = useAuthStore();
   return (
-    <View style={{ marginHorizontal: 100 }}>
+    <View
+      style={[{ paddingTop: insets.top, marginHorizontal: width / 12 }, styles.container]}
+    >
       <Text>HomeScreen</Text>
       <Button
         btnColor="orange"
@@ -22,3 +27,7 @@ export default function HomeScreen(): React.ReactElement {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {},
+});

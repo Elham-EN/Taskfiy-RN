@@ -1,10 +1,14 @@
 import React from "react";
 import { Text, StyleSheet, Platform, View } from "react-native";
 
-export default function BtnLoader() {
+interface BtnLoaderProp {
+  loaderTitle: string;
+}
+
+export default function BtnLoader({ loaderTitle }: BtnLoaderProp) {
   return (
     <View style={styles.btnContainer}>
-      <Text style={styles.btnText}>Loading...</Text>
+      <Text style={styles.btnText}>{loaderTitle}</Text>
     </View>
   );
 }
