@@ -17,6 +17,7 @@ import Button from "../../components/Button";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { firebaseAuth } from "../../firebaseClient";
 import { ForgotPasswordScreenNavigationProps } from "../../types/navigationTypes";
+import { showToast } from "../../utils/showToast";
 
 export default function ForgotPasswordScreen({
   navigation,
@@ -37,10 +38,20 @@ export default function ForgotPasswordScreen({
       setLoading(true);
       await sendPasswordResetEmail(firebaseAuth, data.email);
       setLoading(false);
+      showToast(
+        "success",
+        "Reset Password Sent",
+        "Go to your email and create new password"
+      );
       // Navigate to login screen after successful reset email sent
       navigation.replace("Login");
     } catch (error) {
       console.log("Failed to send password reset email", error);
+      showToast(
+        "error",
+        "Failed to send reset password request",
+        "Is your email correct"
+      );
     }
   };
 
