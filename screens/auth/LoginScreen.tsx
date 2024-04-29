@@ -113,7 +113,12 @@ export default function LoginScreen({
       <View style={styles.bottomContainer}>
         <View style={styles.resetPasswordContainer}>
           <Text>FORGOT YOUR PASSWORD?</Text>
-          <Pressable style={({ pressed }) => pressed && styles.resetPasswordPressed}>
+          <Pressable
+            style={({ pressed }) => pressed && styles.resetPasswordPressed}
+            onPress={() => {
+              navigation.navigate("ForgetPassword");
+            }}
+          >
             <Text style={styles.resetPasswordText}>RESET PASSWORD</Text>
           </Pressable>
         </View>

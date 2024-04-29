@@ -2,12 +2,7 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { Image, Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
-import {
-  GoogleAuthProvider,
-  signInWithCredential,
-  onAuthStateChanged,
-  UserCredential,
-} from "firebase/auth";
+import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
 import { firebaseAuth } from "../firebaseClient";
 import { androidClient, iosClient, webClient } from "../utils/contants";
 import useAuthStore from "../stores/useAuthStore";
@@ -39,7 +34,7 @@ export default function GoogleButton({ onPress }: IconButtonProps): ReactElement
           await useAuthStore.getState().setToken(authToken);
           await useAuthStore.getState().setIsAuthenticated();
         } catch (error) {
-          console.log("Failed to sign in with google");
+          console.log("Failed to sign in with google", error);
         }
       }
     };

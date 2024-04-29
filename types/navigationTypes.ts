@@ -8,6 +8,7 @@ export type RootStackParamList = {
   Onboarding2: undefined;
   Onboarding3: undefined;
   Login: undefined;
+  ForgetPassword: undefined;
   SignUp: undefined;
   Home: undefined;
 };
@@ -35,4 +36,9 @@ export type LoginScreenNavigationProps = NativeStackScreenProps<
 export type SignUpScreenNavigationProps = NativeStackScreenProps<
   RootStackParamList,
   "SignUp"
+>;
+
+export type ForgotPasswordScreenNavigationProps = NativeStackScreenProps<
+  RootStackParamList,
+  "ForgetPassword"
 >;
