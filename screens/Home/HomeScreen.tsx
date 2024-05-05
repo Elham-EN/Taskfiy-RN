@@ -11,23 +11,26 @@ export default function HomeScreen(): React.ReactElement {
   const { width } = useWindowDimensions();
   const authState = useAuthStore();
   return (
-    <View
-      style={[{ paddingTop: insets.top, marginHorizontal: width / 12 }, styles.container]}
-    >
-      <Text>HomeScreen</Text>
-      <Button
-        btnColor="orange"
-        btnTitle="Logout"
-        btnTitleColor="white"
-        onPress={async () => {
-          await authState.logout();
-          await signOut(firebaseAuth);
-        }}
-      />
+    <View style={[{ paddingTop: insets.top }, styles.container]}>
+      <View style={{ marginHorizontal: width / 36 }}>
+        <Text>HomeScreen</Text>
+        <Button
+          btnColor="orange"
+          btnTitle="Logout"
+          btnTitleColor="white"
+          onPress={async () => {
+            await authState.logout();
+            await signOut(firebaseAuth);
+          }}
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    backgroundColor: "#f5f5dc",
+    flex: 1,
+  },
 });

@@ -22,7 +22,6 @@ import { LoginUserSchema } from "../../schema/loginUserSchema";
 import { useMutation } from "@tanstack/react-query";
 import * as apiClient from "../../services/auth.service";
 import { showToast } from "../../utils/showToast";
-import BtnLoader from "../../components/BtnLoader";
 import LoadingSpinner from "../../components/CircleLoader";
 
 export default function LoginScreen({

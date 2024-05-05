@@ -15,7 +15,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import * as apiClient from "../../services/user.service";
 import useAuthStore from "../../stores/useAuthStore";
 import { showToast } from "../../utils/showToast";
-import BtnLoader from "../../components/BtnLoader";
+import LoadingSpinner from "../../components/CircleLoader";
 
 export default function SignupScreen({
   navigation,
@@ -45,7 +45,7 @@ export default function SignupScreen({
         "User Account Created",
         "Now you need to login to use Taskify"
       );
-      navigation.replace("Home");
+      navigation.replace("HomeTab");
     },
     onError: (error: Error) => {
       showToast("error", "Failed to sign up", error.message);
@@ -118,7 +118,7 @@ export default function SignupScreen({
           <Text style={{ color: "#ff0000" }}>{formState.errors.password.message}</Text>
         )}
         {mutation.isPending ? (
-          <BtnLoader />
+          <LoadingSpinner />
         ) : (
           <Button
             btnTitle="Sign Up"

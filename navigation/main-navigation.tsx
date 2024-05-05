@@ -11,6 +11,7 @@ import SignupScreen from "../screens/auth/SignupScreen";
 import useAuthStore from "../stores/useAuthStore";
 import { NavigationContainer } from "@react-navigation/native";
 import ForgotPasswordScreen from "../screens/auth/ForgotPasswordScreen";
+import HomeTabNavigation from "./tab-navigation";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -44,7 +45,7 @@ export default function Navigation(): React.ReactElement {
         )}
         {authState.isAuthenticated && (
           <Stack.Group>
-            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="HomeTab" component={HomeTabNavigation} />
           </Stack.Group>
         )}
       </Stack.Navigator>
