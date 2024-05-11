@@ -8,6 +8,7 @@ import SettingScreen from "../screens/Home/SettingScreen";
 import TaskScreen from "../screens/Home/Task";
 import ChartScreen from "../screens/Home/Chart";
 import TimerScreen from "../screens/Home/Timer";
+import { Platform } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
@@ -19,8 +20,21 @@ export default function HomeTabNavigation(): React.ReactElement {
         tabBarStyle: {
           justifyContent: "center",
           alignItems: "center",
+          backgroundColor: "#e2e2e2",
+          borderTopWidth: 0,
+          ...Platform.select({
+            ios: {
+              shadowColor: "black",
+              shadowOffset: { width: 0, height: 0 },
+              shadowOpacity: 0.25,
+              shadowRadius: 5,
+            },
+            android: {
+              elevation: 10,
+            },
+          }),
         },
-        tabBarActiveTintColor: "red",
+        tabBarActiveTintColor: "#d74713",
         tabBarLabelStyle: {
           fontSize: 12,
           fontWeight: "500",

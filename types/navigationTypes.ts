@@ -11,6 +11,7 @@ export type RootStackParamList = {
   ForgetPassword: undefined;
   SignUp: undefined;
   HomeTab: undefined;
+  CreateTask: undefined;
 };
 
 export type OnboardingScreen1NavigationProps = NativeStackScreenProps<
@@ -41,4 +42,14 @@ export type SignUpScreenNavigationProps = NativeStackScreenProps<
 export type ForgotPasswordScreenNavigationProps = NativeStackScreenProps<
   RootStackParamList,
   "ForgetPassword"
+>;
+
+export type CreateTaskNavigationProps = NativeStackNavigationProp<
+  RootStackParamList,
+  "CreateTask"
+>;
+
+export type CreateTaskModalScreenProp = NativeStackScreenProps<
+  RootStackParamList,
+  "CreateTask"
 >;

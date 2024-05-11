@@ -99,7 +99,7 @@ export default function LoginScreen({
         )}
         {mutation.isPending ? (
           // <BtnLoader />
-          <LoadingSpinner />
+          <LoadingSpinner bgColor="#da4563" color="#FFFFFF" />
         ) : (
           <Button
             btnTitle="Sign In"

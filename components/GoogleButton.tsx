@@ -3,12 +3,20 @@ import { Image, Platform, Pressable, StyleSheet, Text, View } from "react-native
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
 import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
-import { firebaseAuth } from "../firebaseClient";
+import { doc, FieldValue, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import { firebaseAuth, firestoreDB } from "../firebaseClient";
 import { androidClient, iosClient, webClient } from "../utils/contants";
 import useAuthStore from "../stores/useAuthStore";
+import { FirebaseError } from "firebase/app";
+import LoadingSpinner from "./CircleLoader";
 
 interface IconButtonProps {
   onPress: () => void;
+}
+
+interface UserRecordType {
+  uid: string;
+  email: string;
 }
 
 // This going to capture, when using want to sign in, open the modal screen
@@ -21,6 +29,26 @@ export default function GoogleButton({ onPress }: IconButtonProps): ReactElement
     iosClientId: iosClient,
     webClientId: webClient,
   });
+  const [loading, setLoading] = React.useState<boolean>(false);
+
+  const saveUserDataToFirestore = async (userRecord: UserRecordType) => {
+    try {
+      const userDocRef = doc(firestoreDB, "users", userRecord.uid);
+      const userDoc = await getDoc(userDocRef);
+      if (!userDoc.exists()) {
+        // Create a new user profile if it doesn't exist
+        await setDoc(userDocRef, {
+          uid: userRecord.uid,
+          email: userRecord.email,
+          createdAt: serverTimestamp(),
+        });
+      }
+      console.log("User record saved to firestore database");
+    } catch (error) {
+      const firebaseError = error as FirebaseError;
+      console.log(firebaseError.message);
+    }
+  };
 
   useEffect(() => {
     const OAuthSignIn = async () => {
@@ -29,11 +57,18 @@ export default function GoogleButton({ onPress }: IconButtonProps): ReactElement
         const { id_token } = response.params;
         const credential = GoogleAuthProvider.credential(id_token);
         try {
+          setLoading(true);
           const userInfo = await signInWithCredential(firebaseAuth, credential);
+          await saveUserDataToFirestore({
+            uid: userInfo.user.uid,
+            email: userInfo.user.email!,
+          });
           const authToken = await userInfo.user.getIdToken();
           await useAuthStore.getState().setToken(authToken);
           await useAuthStore.getState().setIsAuthenticated();
+          setLoading(false);
         } catch (error) {
+          setLoading(false);
           console.log("Failed to sign in with google", error);
         }
       }
@@ -47,11 +82,17 @@ export default function GoogleButton({ onPress }: IconButtonProps): ReactElement
       onPress={() => promptAsync()}
       style={({ pressed }) => [styles.btnContainer, pressed && styles.btnPressed]}
     >
-      <Image
-        source={require("../assets/images/icons8-google-48.png")}
-        style={{ width: 40, height: 35 }}
-      />
-      <Text style={styles.btnText}>Continue with Google</Text>
+      {loading ? (
+        <LoadingSpinner bgColor={"#FFFFFF"} color={"#da4563"} />
+      ) : (
+        <>
+          <Image
+            source={require("../assets/images/icons8-google-48.png")}
+            style={{ width: 40, height: 35 }}
+          />
+          <Text style={styles.btnText}>Continue with Google</Text>
+        </>
+      )}
     </Pressable>
   );
 }

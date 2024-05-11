@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { View, StyleSheet } from "react-native";
 import Animated, {
   Easing,
@@ -8,7 +8,12 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-const LoadingSpinner = () => {
+interface LoadingSpinnerProps {
+  bgColor: string;
+  color: string;
+}
+
+const LoadingSpinner = ({ bgColor, color }: LoadingSpinnerProps): ReactElement => {
   // Shared value for rotation
   const rotation = useSharedValue(0);
 
@@ -29,34 +34,34 @@ const LoadingSpinner = () => {
     );
   }, [rotation]);
 
+  const styles = StyleSheet.create({
+    container: {
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: bgColor,
+      height: 50,
+      borderRadius: 5,
+      width: "100%",
+      paddingVertical: 10,
+    },
+    circle: {
+      width: 40,
+      height: 40,
+      borderRadius: 25,
+      backgroundColor: "transparent", // Adjust the background color as needed
+      borderRightColor: "transparent",
+      borderTopColor: "transparent",
+      borderBottomColor: "transparent",
+      borderColor: color,
+      borderWidth: 5,
+    },
+  });
+
   return (
     <View style={styles.container}>
       <Animated.View style={[styles.circle, animatedStyle]} />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#da4563",
-    height: 50,
-    borderRadius: 5,
-    width: "100%",
-    paddingVertical: 10,
-  },
-  circle: {
-    width: 40,
-    height: 40,
-    borderRadius: 25,
-    backgroundColor: "transparent", // Adjust the background color as needed
-    borderRightColor: "transparent",
-    borderTopColor: "transparent",
-    borderBottomColor: "transparent",
-    borderColor: "white",
-    borderWidth: 5,
-  },
-});
 
 export default LoadingSpinner;

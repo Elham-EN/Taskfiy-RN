@@ -5,13 +5,14 @@ import colors from "../constants/colors";
 import OnboardingScreen1 from "../screens/onboarding/OnboardingScreen1";
 import OnboardingScreen2 from "../screens/onboarding/OnboardingScreen2";
 import OnboardingScreen3 from "../screens/onboarding/OnboardingScreen3";
-import HomeScreen from "../screens/Home/HomeScreen";
 import LoginScreen from "../screens/auth/LoginScreen";
 import SignupScreen from "../screens/auth/SignupScreen";
 import useAuthStore from "../stores/useAuthStore";
 import { NavigationContainer } from "@react-navigation/native";
 import ForgotPasswordScreen from "../screens/auth/ForgotPasswordScreen";
 import HomeTabNavigation from "./tab-navigation";
+import CreatTask from "../screens/Home/CreateTask/CreateScreenTask";
+import { Pressable, Text } from "react-native";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -44,9 +45,23 @@ export default function Navigation(): React.ReactElement {
           </Stack.Group>
         )}
         {authState.isAuthenticated && (
-          <Stack.Group>
-            <Stack.Screen name="HomeTab" component={HomeTabNavigation} />
-          </Stack.Group>
+          <>
+            <Stack.Group>
+              <Stack.Screen name="HomeTab" component={HomeTabNavigation} />
+            </Stack.Group>
+            <Stack.Group
+              screenOptions={{
+                presentation: "modal",
+                headerShown: true,
+                headerTitle: "Create A New Task",
+                headerStyle: {
+                  backgroundColor: "#e2e2e2",
+                },
+              }}
+            >
+              <Stack.Screen name="CreateTask" component={CreatTask} />
+            </Stack.Group>
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>

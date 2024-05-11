@@ -6,8 +6,11 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { CreateTaskNavigationProps } from "../types/navigationTypes";
 
 const FabButton: React.FC = () => {
+  const navigation = useNavigation<CreateTaskNavigationProps>();
   const scale = useSharedValue(1);
 
   // Define the animated style
@@ -25,6 +28,7 @@ const FabButton: React.FC = () => {
   // Handle the press-out event
   const onPressOut = () => {
     scale.value = withSpring(1);
+    navigation.navigate("CreateTask");
   };
 
   return (
@@ -52,7 +56,7 @@ const styles = StyleSheet.create({
   fabIconContainer: {
     width: 60,
     height: 60,
-    backgroundColor: "red",
+    backgroundColor: "#d74713",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 38,

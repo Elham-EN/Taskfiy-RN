@@ -118,7 +118,7 @@ export default function SignupScreen({
           <Text style={{ color: "#ff0000" }}>{formState.errors.password.message}</Text>
         )}
         {mutation.isPending ? (
-          <LoadingSpinner />
+          <LoadingSpinner bgColor="#da4563" color="#FFFFFF" />
         ) : (
           <Button
             btnTitle="Sign Up"
