@@ -4,7 +4,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialIcons2 from "react-native-vector-icons/MaterialIcons";
 
 import React from "react";
-import SettingScreen from "../screens/Home/SettingScreen";
+import ProfileScreen from "../screens/Home/Profile/ProfileScreen";
 import TaskScreen from "../screens/Home/Task";
 import ChartScreen from "../screens/Home/Chart";
 import TimerScreen from "../screens/Home/Timer";
@@ -83,11 +83,11 @@ export default function HomeTabNavigation(): React.ReactElement {
       />
       <Tab.Screen
         name="Setting"
-        component={SettingScreen}
+        component={ProfileScreen}
         options={{
-          tabBarLabel: "Setting",
+          tabBarLabel: "Profile",
           tabBarIcon: ({ color }) => (
-            <MaterialIcons name="cog-outline" color={color} size={28} />
+            <MaterialIcons name="account" color={color} size={28} />
           ),
         }}
       />
